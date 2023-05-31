@@ -6,20 +6,11 @@ const app  = express();
 
 dotenv.config({path:'./config.env'});
 
-const DB = process.env.DATABASE;
 const PORT = process.env.PORT;
 
-mongoose.connect(DB, 
-    {
-    useNewUrlParser: true,
-    // useCreateIndex: true,
-    useUnifiedTopology: true,
-    // useFindAndModify: false
-    }
-    ).then(() => {
-        console.log("connectiontion succesfull with DB");
-    }
-).catch((err)=> console.log(err));
+// DB connection
+require('./db/conn');
+
 
 // Middleware
 
