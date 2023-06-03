@@ -13,6 +13,11 @@ const PORT = process.env.PORT;
 // DB connection
 require('./db/conn');
 
+// to make sure app understand json data and show (convert json to object)
+app.use(express.json()); // middleware use
+
+// link the router files to make our route easy
+app.use(require('./router/auth'));
 
 // Middleware
 
@@ -25,7 +30,7 @@ const middleware = (req, res, next) => {
 
 // Routing
 app.get('/', (req, res) => {
-    res.send('Hello from Server');
+    res.send('Hello from Server app.js');
 });
 
 app.get('/about', middleware ,(req, res) => {
