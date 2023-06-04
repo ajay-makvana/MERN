@@ -37,6 +37,7 @@ app.get('/about', middleware, (req, res) => {
     res.send('Hello from About');
 });
 app.get('/contact', (req, res) => {
+    res.cookie("testCookieName","testValue");
     res.send('Hello from Contact');
 });
 app.get('/signin', (req, res) => {
