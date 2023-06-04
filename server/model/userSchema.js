@@ -42,7 +42,7 @@ userSchema.pre('save', async function (next) {
     next();
 })
 
-
+// collection creation
 // (collectionName, Schema)
 const User = mongoose.model('USER', userSchema);
 
