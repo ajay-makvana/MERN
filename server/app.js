@@ -2,9 +2,9 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const express = require('express');
 
-const app  = express();
+const app = express();
 
-dotenv.config({path:'./config.env'});
+dotenv.config({ path: './config.env' });
 
 // const User = require('./model/userSchema');
 
@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
     res.send('Hello from Server app.js');
 });
 
-app.get('/about', middleware ,(req, res) => {
+app.get('/about', middleware, (req, res) => {
     res.send('Hello from About');
 });
 app.get('/contact', (req, res) => {
