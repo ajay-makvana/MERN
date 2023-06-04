@@ -33,7 +33,7 @@ router.get('/', (req, res) => {
 //             // key value pair to store in database
 //             const user = new User({ name: name, email: email, phone: phone, work: work, password: password, cpassword: cpassword });
 //             user.save().then(() => {
-//                 return res.status(200).json({ error: "User created succesfully" });
+//                 return res.status(200).json({ message: "User created succesfully" });
 //             }).catch((err) => {
 //                 res.status(500).json({ error: "Failed to Register" });
 //             })
@@ -68,7 +68,7 @@ router.post('/register', async (req, res) => {
         const userRegistered = await user.save();
 
         if (userRegistered) {
-            return res.status(201).json({ error: "User created succesfully" });
+            return res.status(201).json({ message: "User created succesfully" });
         }
         else {
             res.status(500).json({ error: "Failed to Register" });
@@ -78,6 +78,30 @@ router.post('/register', async (req, res) => {
         console.log(err);
     }
 
+});
+
+// Login router
+router.post('/signin', async (req, res) => {
+    console.log(req.body);
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).json({ error: "Please Fill Data" });
+        }
+
+        // findOne() return entire document if email match
+        const userLogin = await User.findOne({ email: email });
+
+        if (!userLogin) {
+            res.status(400).json({ error: "Error while signin" });
+        }
+        else {
+            res.json({ message: "User signin successfully" });
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
 });
 
 module.exports = router;
