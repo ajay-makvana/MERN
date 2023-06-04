@@ -61,20 +61,25 @@ router.post('/register', async (req, res) => {
         if (userExist) {
             return res.status(422).json({ error: "Email already exist" });
         }
-
-        // key value pair to store in database
-        const user = new User({ name: name, email: email, phone: phone, work: work, password: password, cpassword: cpassword });
-
-        const userRegistered = await user.save();
-
-        if (userRegistered) {
-            return res.status(201).json({ message: "User created succesfully" });
+        else if (password != cpassword) {
+            return res.status(422).json({ error: "password and cPassword anr not same" });
         }
         else {
-            res.status(500).json({ error: "Failed to Register" });
+            // key value pair to store in database
+            const user = new User({ name: name, email: email, phone: phone, work: work, password: password, cpassword: cpassword });
+            // Hashing precess define in userSchema will work here
+            // as we mentioned pre() method before 'save' works
+            const userRegistered = await user.save();
+
+            if (userRegistered) {
+                return res.status(201).json({ message: "User created succesfully" });
+            }
+            else {
+                res.status(500).json({ error: "Failed to Register" });
+            }
         }
     }
-    catch {
+    catch (err) {
         console.log(err);
     }
 
