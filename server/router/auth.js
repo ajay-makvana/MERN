@@ -68,7 +68,7 @@ router.post('/register', async (req, res) => {
         const userRegistered = await user.save();
 
         if (userRegistered) {
-            return res.status(200).json({ error: "User created succesfully" });
+            return res.status(201).json({ error: "User created succesfully" });
         }
         else {
             res.status(500).json({ error: "Failed to Register" });
