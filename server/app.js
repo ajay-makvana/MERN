@@ -48,6 +48,6 @@ app.get('/signup', (req, res) => {
 });
 
 // console.log("Console Output");
-app.listen(3000, () => {
+app.listen(PORT, () => {
     console.log(`Server Running at port ${PORT}`);
 }) 
