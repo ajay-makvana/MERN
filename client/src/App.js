@@ -10,6 +10,7 @@ import Contact from './components/Contact';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Errorpage from './components/Errorpage';
+import Logout from './components/Logout';
 
 const App = () => {
   return (
@@ -21,7 +22,8 @@ const App = () => {
         <Route exact path="/contact" element={<Contact />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
-        <Route path="*" element={<Errorpage/>}/>
+        <Route exact path="/logout" element={<Logout />} />
+        <Route path="*" element={<Errorpage />} />
       </Routes>
     </>
   )

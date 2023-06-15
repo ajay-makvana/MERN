@@ -176,4 +176,12 @@ router.post('/contact', authenticate, async (req, res) => {
     }
 });
 
+// for logout functionality
+router.get('/logout', (req, res) => {
+    console.log("Logout Page");
+    // clear cookie so whenever any req go for authentication it will not find cookie so logout
+    res.clearCookie('jwtoken', { path: '/' });
+    res.status(200).send("User Logout");
+});
+
 module.exports = router;
