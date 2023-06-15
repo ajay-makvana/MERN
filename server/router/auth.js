@@ -134,7 +134,8 @@ router.post('/signin', async (req, res) => {
 
 // about page only open when user is loggedIn and has unique token id(jwttoken in cookie)
 router.get('/about', authenticate, (req, res) => {
-    res.send('Hello from About');
+    // whatever rootUser details get from authenticate middleware send to response in frontEnd 
+    res.send(req.rootUser);
     console.log('Hello from About Inside Router');
 });
 
