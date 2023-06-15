@@ -10,7 +10,7 @@ const authenticate = async (req, res, next) => {
         console.log(varifyToken);
 
         // finding details that user with this token exist or not
-        const rootUser = await User.findOne({ _id: varifyToken._id, "tokens:token": token });
+        const rootUser = await User.findOne({ _id: varifyToken._id, "tokens.token": token });
 
         if (!rootUser) {
             throw new Error("User not found");
