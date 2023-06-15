@@ -1,6 +1,46 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const Contact = () => {
+
+    const navigate = useNavigate();
+
+    const [userData, setUserData] = useState({});
+
+    const userContact = async () => {
+        try {
+            const resFromBackend = await fetch('/getdata', {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            })
+
+            const data = await resFromBackend.json();
+            // console.log(data);
+
+            setUserData(data);
+
+            if (!resFromBackend.status === 200) {
+                const error = new Error(resFromBackend.error);
+                console.log(error);
+                throw error;
+            }
+        }
+        catch (err) {
+            console.log(err);
+
+            // user Not logedIn so we got error so redirect user to login
+            navigate('/login');
+        }
+    }
+
+    // whenever page load first time callAboutPage() function will called
+    // it will check as user already loggedIn then show about page content or redirect to login page
+    useEffect(() => {
+        userContact();
+    }, []);
+
     return (
         <>
             {/* General Info showing */}
@@ -26,9 +66,9 @@ const Contact = () => {
                                 <form id="contact_form">
                                     <div className='d-flex justify-content-between align-items-between contact_form_name'>
 
-                                        <input type='text' id='contact_form_name' className='contact_form_name input_field' placeholder='Your Name' required='true' />
-                                        <input type='email' id='contact_form_email' className='contact_form_email input_field' placeholder='Your Email' required='true' />
-                                        <input type='number' id='contact_form_phone' className='contact_form_phone input_field' placeholder='Your Phone' required='true' />
+                                        <input type='text' id='contact_form_name' className='contact_form_name input_field' placeholder='Your Name' required='true' value={userData.name} />
+                                        <input type='email' id='contact_form_email' className='contact_form_email input_field' placeholder='Your Email' required='true' value={userData.email} />
+                                        <input type='number' id='contact_form_phone' className='contact_form_phone input_field' placeholder='Your Phone' required='true' value={userData.phone} />
 
                                     </div>
                                 </form>

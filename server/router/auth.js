@@ -143,4 +143,9 @@ router.get('/about', authenticate, (req, res) => {
     console.log('Hello from About Inside Router');
 });
 
+// for getting user data in home & contact page
+router.get('/getdata', authenticate, (req, res) => {
+    res.send(req.rootUser);
+});
+
 module.exports = router;
