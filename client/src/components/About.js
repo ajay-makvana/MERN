@@ -1,7 +1,46 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import profilepic from '../images/ajay.jpg'
+import { useNavigate } from 'react-router-dom'
 
 const About = () => {
+
+    const navigate = useNavigate();
+
+    const callAboutPage = async () => {
+        try {
+            const resFromBackend = await fetch('/about', {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                // if we want to send cookies or token then this credentials must to write
+                credentials: "include"
+            })
+
+            const data = await resFromBackend.json();
+            console.log(data);
+
+            if (!resFromBackend.status === 200) {
+                const error = new Error(resFromBackend.error);
+                console.log(error);
+                throw error;
+            }
+        }
+        catch (err) {
+            console.log(err);
+
+            // user Not logedIn so we got error so redirect user to login
+            navigate('/login');
+        }
+    }
+
+    // whenever page load first time callAboutPage() function will called
+    // it will check as user already loggedIn then show about page content or redirect to login page
+    useEffect(() => {
+        callAboutPage();
+    }, []);
+
     return (
         <>
             <div className='container profile mt-3'>

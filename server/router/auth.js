@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authenticate = require('../middleware/authenticate');
+const cookieParser = require('cookie-parser');
 
 require('../db/conn');
 const User = require("../model/userSchema");
@@ -10,6 +11,9 @@ const User = require("../model/userSchema");
 router.get('/', (req, res) => {
     res.send('Hello from Server router.js');
 });
+
+// need to add cookie-parser miiddleware as Express doesn't parse request cookie headers by default
+router.use(cookieParser());
 
 // Using Promise
 
