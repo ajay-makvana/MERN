@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 const Signup = () => {
+
+    //useNavigate hook for after registration login
+    const navigate = useNavigate();
 
     const [user, setUser] = useState({
         name: "",
@@ -15,7 +18,7 @@ const Signup = () => {
 
     let name, value; //{ key, value } pair
     const handleInputs = (e) => {
-        console.log(e);
+        // console.log(e);
         name = e.target.name; // name of inputfield which is typing
         value = e.target.value; // value of inputfield which is typing
 
@@ -23,7 +26,42 @@ const Signup = () => {
         // here get dynamic data 'name'
         setUser({ ...user, [name]: value });
         // setting the name field value to value in 
-    }
+    };
+
+    const PostData = async (e) => {
+        e.preventDefault(); // automatic form reload stopping
+        const { name, email, phone, work, password, cpassword } = user;
+
+        const res = await fetch("/register", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({
+                // if both key value pair has same name no need to write:)
+                "name": name,
+                "email": email,
+                "phone": phone,
+                "work": work,
+                "password": password,
+                "cpassword": cpassword
+            })
+        });
+
+        const data = await res.json();
+        // console.log(res);
+        // console.log(data);
+        
+        if (res.status === 422 || !data) {
+            window.alert("Invalid Registration");
+        }
+        else {
+            window.alert("Registration Done Succesfully");
+
+            // after registration make user login
+            navigate("/login");
+        }
+    };
 
     return (
         <>
@@ -33,7 +71,7 @@ const Signup = () => {
 
                         <h2 className='form-title'>Sign Up</h2>
 
-                        <form className='register-form' id="register-form">
+                        <form method='POST' className='register-form' id="register-form">
 
                             <div className="form-group">
                                 <label htmlFor='name'>
@@ -78,7 +116,7 @@ const Signup = () => {
                             </div>
 
                             <div className='form-group form-button'>
-                                <input type="submit" name='sigunp' id='signup' className='form-submit' value="Register" />
+                                <input type="submit" name='sigunp' id='signup' className='form-submit' value="register" onClick={PostData} />
 
                             </div>
 
