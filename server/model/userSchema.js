@@ -27,6 +27,30 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    messages: [
+        {
+            name: {
+                type: String,
+                required: true
+            },
+            email: {
+                type: String,
+                required: true
+            },
+            phone: {
+                type: Number,
+                required: true
+            },
+            message: {
+                type: String,
+                required: true
+            },
+        }
+    ],
     // token storing on DB
     // same user login many time so need array of tokens as many tokens 
     tokens: [
@@ -67,6 +91,18 @@ userSchema.methods.generateAuthToken = async function () {
         await this.save();
         // return this so in auth.js we can use
         return token;
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+
+// store messages
+userSchema.methods.addMessage = async function (name, email, phone, message) {
+    try {
+        this.messages = this.messages.concat({ name: name, email: email, phone: phone, message: message });
+        await this.save();
+        return this.messages;
     }
     catch (err) {
         console.log(err);

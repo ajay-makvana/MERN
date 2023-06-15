@@ -5,7 +5,8 @@ const Contact = () => {
 
     const navigate = useNavigate();
 
-    const [userData, setUserData] = useState({});
+    // don't need all field get from '/getdata' so only put that required
+    const [userData, setUserData] = useState({ name: "", email: "", phone: "", message: "" });
 
     const userContact = async () => {
         try {
@@ -19,7 +20,8 @@ const Contact = () => {
             const data = await resFromBackend.json();
             // console.log(data);
 
-            setUserData(data);
+            // set some field if user already login than this field are already stored on DB so used that
+            setUserData({ ...userData, name: data.name, email: data.email, phone: data.phone });
 
             if (!resFromBackend.status === 200) {
                 const error = new Error(resFromBackend.error);
@@ -40,6 +42,45 @@ const Contact = () => {
     useEffect(() => {
         userContact();
     }, []);
+
+    // storing data in userData
+
+    const handleInput = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+
+        // set name, email, phone number from available data of loggedUser, only message field will need to change
+        setUserData({ ...userData, [name]: value });
+    }
+
+    //send data to backEnd
+    const contactForm = async (e) => {
+        e.preventDefault(); // stopping auto form refresh
+
+        const { name, email, phone, message } = userData;
+
+        const res = await fetch('/contact', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name, email, phone, message
+            })
+        });
+
+        const data = await res.json();
+        if (!data || res.status === 400) {
+            alert("Message Not Send");
+        }
+        else {
+            alert("Message Send");
+            // after sending message message field will be clear
+            setUserData({ ...userData, message: "" });
+        }
+
+    };
+
 
     return (
         <>
@@ -66,9 +107,9 @@ const Contact = () => {
                                 <form id="contact_form">
                                     <div className='d-flex justify-content-between align-items-between contact_form_name'>
 
-                                        <input type='text' id='contact_form_name' className='contact_form_name input_field' placeholder='Your Name' required='true' value={userData.name} />
-                                        <input type='email' id='contact_form_email' className='contact_form_email input_field' placeholder='Your Email' required='true' value={userData.email} />
-                                        <input type='number' id='contact_form_phone' className='contact_form_phone input_field' placeholder='Your Phone' required='true' value={userData.phone} />
+                                        <input type='text' id='contact_form_name' className='contact_form_name input_field' placeholder='Your Name' required='true' name="name" value={userData.name} onChange={handleInput} />
+                                        <input type='email' id='contact_form_email' className='contact_form_email input_field' placeholder='Your Email' required='true' name="email" value={userData.email} onChange={handleInput} />
+                                        <input type='number' id='contact_form_phone' className='contact_form_phone input_field' placeholder='Your Phone' required='true' name="phone" value={userData.phone} onChange={handleInput} />
 
                                     </div>
                                 </form>
@@ -79,12 +120,12 @@ const Contact = () => {
                     </div>
                     <div className='container justify-content-center'>
                         <div className='contact_form_text mt-4'>
-                            <textarea className='text_field contact_form_message' placeholder='Message' cols="30" rows="5" />
+                            <textarea className='text_field contact_form_message' placeholder='Message' cols="30" rows="5" name="message" value={userData.message} onChange={handleInput} />
                         </div>
                     </div>
                     <div className='row d-flex justify-content-center align-items-center'>
                         <div className='contact_form_button'>
-                            <button type='submit' className='button contact_submit_button'>Submit</button>
+                            <button type='submit' className='button contact_submit_button' onClick={contactForm}>Submit</button>
                         </div>
                     </div>
                 </div>

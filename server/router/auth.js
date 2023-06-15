@@ -148,4 +148,32 @@ router.get('/getdata', authenticate, (req, res) => {
     res.send(req.rootUser);
 });
 
+//contact page message handling
+router.post('/contact', authenticate, async (req, res) => {
+    try {
+
+        const { name, email, phone, message } = req.body;
+
+        if (!name || !email || !phone || !message) {
+            console.log("some field empty in contact form");
+            return res.status(400).json({ error: "Please fill all field of contact form" });
+        }
+
+        // req.userID from authenticate middleware
+        const userContact = await User.findOne({ _id: req.userID });
+
+        if (userContact) {
+            // addMessage method defined in userSchema
+            const userMessage = await userContact.addMessage(name, email, phone, message);
+
+            await userContact.save();
+
+            res.status(201).json({ message: "user contact form succesfully" });
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
 module.exports = router;
