@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
-import profilepic from '../images/ajay.jpg'
+import React, { useEffect, useState } from 'react'
+import profilepic from '../images/profilepic.png'
 import { useNavigate } from 'react-router-dom'
 
 const About = () => {
 
     const navigate = useNavigate();
+
+    const [userData, setUserData] = useState({});
 
     const callAboutPage = async () => {
         try {
@@ -19,7 +21,9 @@ const About = () => {
             })
 
             const data = await resFromBackend.json();
-            console.log(data);
+            // console.log(data);
+
+            setUserData(data);
 
             if (!resFromBackend.status === 200) {
                 const error = new Error(resFromBackend.error);
@@ -54,8 +58,8 @@ const About = () => {
 
                         <div className='col-md-6'>
                             <div className='profile_head'>
-                                <h5>Ajay Makvana</h5>
-                                <h6>Web Developer</h6>
+                                <h5>{userData.name}</h5>
+                                <h6>{userData.work}</h6>
                                 <p className='profile_rating mt-3 mb-5'>Ratings <span>1/10</span></p>
 
                                 <ul class="nav nav-tabs" role="tablist">
@@ -98,7 +102,7 @@ const About = () => {
                                             <label>UserId</label>
                                         </div>
                                         <div className='col-md-6'>
-                                            <p>TempData </p>
+                                            <p>{userData._id} </p>
                                         </div>
                                     </div>
 
@@ -107,7 +111,7 @@ const About = () => {
                                             <label>Name</label>
                                         </div>
                                         <div className='col-md-6'>
-                                            <p>TempData </p>
+                                            <p>{userData.name} </p>
                                         </div>
                                     </div>
 
@@ -116,7 +120,7 @@ const About = () => {
                                             <label>Email</label>
                                         </div>
                                         <div className='col-md-6'>
-                                            <p>TempData </p>
+                                            <p>{userData.email} </p>
                                         </div>
                                     </div>
 
@@ -125,7 +129,7 @@ const About = () => {
                                             <label>Phone</label>
                                         </div>
                                         <div className='col-md-6'>
-                                            <p>TempData </p>
+                                            <p>{userData.phone} </p>
                                         </div>
                                     </div>
 
@@ -134,7 +138,7 @@ const About = () => {
                                             <label>Profession</label>
                                         </div>
                                         <div className='col-md-6'>
-                                            <p>TempData </p>
+                                            <p>{userData.work} </p>
                                         </div>
                                     </div>
                                 </div>
