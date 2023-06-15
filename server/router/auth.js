@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const authenticate = require('../middleware/authenticate');
 
 require('../db/conn');
 const User = require("../model/userSchema");
@@ -129,6 +130,12 @@ router.post('/signin', async (req, res) => {
     catch (err) {
         console.log(err);
     }
+});
+
+// about page only open when user is loggedIn and has unique token id(jwttoken in cookie)
+router.get('/about', authenticate, (req, res) => {
+    res.send('Hello from About');
+    console.log('Hello from About Inside Router');
 });
 
 module.exports = router;
