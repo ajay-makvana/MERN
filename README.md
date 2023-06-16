@@ -15,9 +15,15 @@ Web portal allow users to create their profile, connect & share their info and m
 
 ## Installations
 
-- Clone the repository: git clone <https://github.com/ajay-makvana/connectMe>
+- Clone the repository: 
+    ```
+    git clone https://github.com/ajay-makvana/connectMe
+    ```
 
-- Navigate to the project directory: cd connectMe
+- Navigate to the project directory: 
+    ```
+    cd connectMe
+    ```
 
 - Install the dependencies:
 
@@ -33,21 +39,21 @@ Web portal allow users to create their profile, connect & share their info and m
         ```
 
 ## Configuration
-Update a configExample.env file in the root/client directory of the project and provide the necessary configuration variables. Include variables such as database connection details and Secret key.
+Rename a configExample.env file to config.env in the root/server directory of the project and Update the necessary configuration variables such as DATABASE connection details and SECRET_KEY.
 
 ## Run
 - Start the server:
-In the project root directory, go to server directory (cd server)
-Run npm start or yarn start
+
+    In the project root directory, go to server directory (cd server) Run npm start or yarn start
     ```
     cd server
     node app.js
     ```
 - Start the client:
-In a new terminal window, navigate to the client directory (cd client)
-Run npm start or yarn start
+
+    In a new terminal window, navigate to the client directory (cd client) Run npm start or yarn start
     ```
     cd client
     npm start
     ```
-Access the application by visiting http://localhost:3000 in your browser.
+- Access the application by visiting http://localhost:3000 in your browser.
