@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { UserContext } from '../App';
 
 const Login = () => {
+
+    const { state, dispatch } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -31,6 +34,12 @@ const Login = () => {
             window.alert("Invalid UserCredentials");
         }
         else {
+            // In login page out state will be only updated based on dispatch call no direct change
+            // so we call dispatch({ type="USER", payload: true });
+            // so action type = "USER"
+            // this will check in UseReducer.js file reducer function and return action.payload which will store in state
+            dispatch({ type: "USER", payload: true });
+
             window.alert("Login Succesfull");
 
             // after login redirect to Home page

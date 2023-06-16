@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../App';
 
 const Logout = () => {
+
+    const { state, dispatch } = useContext(UserContext);
 
     const navigation = useNavigate();
 
@@ -15,6 +18,9 @@ const Logout = () => {
             },
             credentials: "include" // comment this line still working
         }).then((res) => {
+
+            dispatch({ type: "USER", payload: false });
+
             // replace = true means compulsury send to '/login' and user can't go back in browser
             navigation("/login", { replace: true });
             if (res.status !== 200) {
